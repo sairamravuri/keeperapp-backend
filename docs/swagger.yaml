@@ -1,0 +1,257 @@
+openapi: 3.0.0
+info:
+  title: Vote India API
+  description: A simple API for VoteIndia application
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /user/signup:
+    post:
+      summary: Add new user details
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignupInput"
+      responses:
+        "201":
+          description: Successful response indicating that the admin is succesfully registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignupOutput"
+  /user/login:
+    post:
+      summary: Login as a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "201":
+          description: Successful response indicating that the admin is succesfully logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginInput"
+  /user/forgotPassword:
+    post:
+      summary: Forgot Password
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordInput"
+      responses:
+        "201":
+          description: Successful response indicating that the otp set successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordOutput"
+  /user/verifyotp:
+    post:
+      summary: Verify Otp
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyOtpInput"
+      responses:
+        "201":
+          description: Successful response indicating that the otp verified succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordOutput"
+  /user/changePassword:
+    post:
+      summary: Change Password
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordInput"
+      responses:
+        "201":
+          description: Successful response indicating that the password changed succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordOutput"
+  notes/add:
+    post:
+      summary: Add New Notes
+      tags: -Notes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddNotesInput"
+      responses:
+        "201":
+          description: Successful response indicating that the password changed succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddNotesOuput"
+  /notes/get:
+    get:
+      summary: Notes Of User
+      tags:
+        - Notes
+      parameters:
+        - name: user_id
+          in: query
+          description: User Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Notes that user has saved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AddNotesOuput"
+  /notes/delete:
+    delete:
+      summary: Delete A Notes of User
+      tags:
+        - Notes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteInput"
+      responses:
+        "201":
+          description: Successful response indicating that Notes Deleted Successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteOutput"
+
+components:
+  schemas:
+    SignupInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    SignupOutput:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    LoginInput:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    ForgotPasswordInput:
+      type: object
+      properties:
+        email:
+          type: string
+    PasswordOutput:
+      type: object
+      properties:
+        message:
+          type: string
+    VerifyOtpInput:
+      type: object
+      properties:
+        email:
+          type: string
+        otp:
+          type: integer
+    ChangePasswordInput:
+      type: object
+      properties:
+        email:
+          type: string
+        newPassword:
+          type: string
+    AddNotesInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+        newNotes:
+          type: array
+          items:
+            $ref: "#/components/schemas/AddNotes"
+    AddNotes:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+    AddNotesOutput:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DeleteInput:
+      type: object
+      properties:
+        id:
+          type: integer
+    DeleteOutput:
+      type: object
+      properties:
+        message:
+          type: string
