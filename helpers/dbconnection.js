@@ -9,5 +9,5 @@ async function initialize() {
   // init models and add them to the exported db object
 
   // sync all models with database
-  // await sequelize.sync({ alter: true }); //{alter:true}
+  await sequelize.sync({ alter: true }); //{alter:true}
 }
